@@ -225,6 +225,9 @@
     "Send tab in term mode."
     (interactive)
     (term-send-raw-string "\t"))
+  ;; update current directory
+  (ad-activate 'term-send-raw)
+  (ad-activate 'term-send-input)
   ;; hack to fix pasting issue, the paste transient-state won't
   ;; work in term
   (evil-define-key 'normal term-raw-map "p" 'term-paste)

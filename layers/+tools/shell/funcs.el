@@ -165,3 +165,16 @@ is achieved by adding the relevant text properties."
   "Send tab in term mode."
   (interactive)
   (term-send-raw-string "\t"))
+
+;; update current directory
+(defadvice term-send-input (after update-current-directory)
+  "Update the current directory."
+  (let* ((pid (process-id (get-buffer-process (current-buffer))))
+         (cwd (file-truename (format "/proc/%d/cwd" pid))))
+    (cd cwd)))
+
+(defadvice term-send-raw (after update-current-directory)
+  "Update the current directory."
+  (let* ((pid (process-id (get-buffer-process (current-buffer))))
+         (cwd (file-truename (format "/proc/%d/cwd" pid))))
+    (cd cwd)))
