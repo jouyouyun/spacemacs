@@ -30,5 +30,25 @@
   (configuration-layer/sync)
   (spacemacs-buffer/display-startup-note)
   (spacemacs/setup-startup-hook)
+  ;; term and shell env
+  (spacemacs/update-custom-envs)
+  (global-set-key (kbd "C-c M-t") 'multi-term)
+  ;; anzu
+  (global-anzu-mode +1)
+  (global-set-key (kbd "M-%") 'anzu-query-replace) ;
+  (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+  ;; avy
+  (avy-setup-default)
+  (setq avy-background t)
+  (setq avy-style 'at-full)
+  (setq avy-style 'at-full)
+  (global-set-key (kbd "M-g w") 'avy-goto-char-in-line)
+  (global-set-key (kbd "M-g f") 'avy-goto-char)
+  (global-set-key (kbd "M-g g") 'avy-goto-line)
+  (global-set-key (kbd "M-g C-y") 'avy-copy-line)
+  (global-set-key (kbd "M-g C-k") 'avy-move-line)
+  (global-set-key (kbd "M-g M-y") 'avy-copy-region)
+  ;; magit
+  (global-set-key (kbd "C-x g") 'magit-status)
   (require 'server)
   (unless (server-running-p) (server-start)))

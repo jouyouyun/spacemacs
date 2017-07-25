@@ -151,7 +151,27 @@
       (spacemacs/register-repl 'multi-term 'multi-term))
     :config
     (progn
+      ;; no limit buffer length
+      (setq show-trailing-whitespace nil)
       (add-to-list 'term-bind-key-alist '("<tab>" . term-send-tab))
+      ;; send 'ESC' to terminal
+      (add-to-list 'term-bind-key-alist '("C-c M-e" . term-send-esc))
+      (setq term-bind-key-alist
+            (list (cons "C-c C-c" 'term-interrupt-subjob)
+                  ;; jump terminals
+                  (cons "C-c M-[" 'multi-term-prev)
+                  (cons "C-c M-]" 'multi-term-next)
+                  (cons "C-p" 'previous-line)
+                  (cons "C-n" 'next-line)
+                  (cons "M-f" 'term-send-forward-word)
+                  (cons "M-b" 'term-send-backward-word)
+                  (cons "C-c C-j" 'term-line-mode)
+                  (cons "C-c C-k" 'term-char-mode)
+                  (cons "M-DEL" 'term-send-backward-kill-word)
+                  (cons "M-d" 'term-send-forward-kill-word)
+                  (cons "C-r" 'term-send-reverse-search-history)))
+      ;; paste
+      (define-key term-raw-map (kbd "C-y") 'term-paste)
       ;; multi-term commands to create terminals and move through them.
       (spacemacs/set-leader-keys-for-major-mode 'term-mode
         "c" 'multi-term

@@ -57,6 +57,20 @@ arguments is that we want to process these arguments as soon as possible."
       (setq i (1+ i)))
     (nreverse new-args)))
 
+;; update custom environment
+(defun spacemacs/update-custom-envs ()
+  (require 'exec-path-from-shell)
+  (exec-path-from-shell-initialize)
+  (dolist (var
+           '("PATH"
+             "DATA"
+             "HOME"
+             "PRJ"
+             "GOPATH"
+             "GOPKG"
+             "GOSRC"))
+    (exec-path-from-shell-copy-env var)))
+
 (setq command-line-args (spacemacs//parse-command-line command-line-args))
 
 (provide 'core-command-line)
