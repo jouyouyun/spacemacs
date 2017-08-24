@@ -30,58 +30,59 @@
 ;;; Code:
 
 (defconst wen-editor-packages
-      '(
-        easy-kill
-        popup-kill-ring
-        whole-line-or-region
-        multiple-cursors
-        ))
+  '(
+    easy-kill
+    popup-kill-ring
+    whole-line-or-region
+    multiple-cursors
+    youdao-dictionary
+    ))
 
 
 (defun wen-editor/init-popup-kill-ring()
   (use-package popup-kill-ring
-                :init
-                (progn
-                  (global-set-key (kbd "M-y") 'popup-kill-ring)
-                  )))
+    :init
+    (progn
+      (global-set-key (kbd "M-y") 'popup-kill-ring)
+      )))
 
 (defun wen-editor/init-easy-kill()
   (use-package easy-kill
-                :init
-                (progn
-                  ;; easy-kill
-                  ;; For example, M-w w saves current word, repeat w to expand the kill to
-                  ;; include the next word. 5 to include the next 5 words etc.
-                  ;; The other commands also follow this pattern.
-                  ;;
-                  ;; +/- does expanding/shrinking according to the thing selected.
-                  ;; So for word the expansion is word-wise, for line line-wise,
-                  ;; for list or sexp, list-wise.
-                  (global-set-key (kbd "M-s") 'easy-kill)
-                  (global-set-key [remap kill-ring-save] 'easy-kill)
-                  ;; default keybinding
-                  ;;  M-w w: save word at point
-                  ;;  M-w s: save sexp at point
-                  ;;  M-w l: save list at point (enclosing sexp)
-                  ;;  M-w d: save defun at point
-                  ;;  M-w D: save current defun name
-                  ;;  M-w f: save file at point
-                  ;;  M-w b: save buffer-file-name or default-directory.
-                  ;;         - changes the kill to the directory name,
-                  ;;         + to full name and 0 to basename.
-                  ;; The following keys modify the selection:
-                  ;;  @: append selection to previous kill and exit.
-                  ;;     For example, M-w d @ will append current function to last kill.
-                  ;;  C-w: kill selection and exit
-                  ;;  +, - and 1..9: expand/shrink selection
-                  ;;  0: shrink the selection to the intitial size i.e. before any expansion
-                  ;;  C-SPC: turn selection into an active region
-                  ;;  C-g: abort
-                  ;;  ?: help
-                  ;;
-                  ;; easy mark
-                  (global-set-key [remap mark-sexp] 'easy-mark)
-                  )))
+    :init
+    (progn
+      ;; easy-kill
+      ;; For example, M-w w saves current word, repeat w to expand the kill to
+      ;; include the next word. 5 to include the next 5 words etc.
+      ;; The other commands also follow this pattern.
+      ;;
+      ;; +/- does expanding/shrinking according to the thing selected.
+      ;; So for word the expansion is word-wise, for line line-wise,
+      ;; for list or sexp, list-wise.
+      (global-set-key (kbd "M-s") 'easy-kill)
+      (global-set-key [remap kill-ring-save] 'easy-kill)
+      ;; default keybinding
+      ;;  M-w w: save word at point
+      ;;  M-w s: save sexp at point
+      ;;  M-w l: save list at point (enclosing sexp)
+      ;;  M-w d: save defun at point
+      ;;  M-w D: save current defun name
+      ;;  M-w f: save file at point
+      ;;  M-w b: save buffer-file-name or default-directory.
+      ;;         - changes the kill to the directory name,
+      ;;         + to full name and 0 to basename.
+      ;; The following keys modify the selection:
+      ;;  @: append selection to previous kill and exit.
+      ;;     For example, M-w d @ will append current function to last kill.
+      ;;  C-w: kill selection and exit
+      ;;  +, - and 1..9: expand/shrink selection
+      ;;  0: shrink the selection to the intitial size i.e. before any expansion
+      ;;  C-SPC: turn selection into an active region
+      ;;  C-g: abort
+      ;;  ?: help
+      ;;
+      ;; easy mark
+      (global-set-key [remap mark-sexp] 'easy-mark)
+      )))
 
 
 ;; Insert an empty line after the current line.
@@ -140,29 +141,51 @@
 
 (defun wen-editor/init-whole-line-or-region()
   (use-package whole-line-or-region
-                :init
-                (progn
-                  (global-set-key [remap kill-whole-line]
-                                  'wen-kill-whole-line)
+    :init
+    (progn
+      (global-set-key [remap kill-whole-line]
+                      'wen-kill-whole-line)
 
-                  (global-set-key [remap move-beginning-of-line]
-                                  'wen-move-beginning-of-line)
-                  ;; Comment or uncomment
-                  (global-set-key (kbd "M-;") 'whole-line-or-region-comment-dwim-2)
-                  (global-set-key (kbd "M-w") 'whole-line-or-region-copy-region-as-kill)
-                  (global-set-key (kbd "C-c o") 'wen-open-line)
-                  (global-set-key (kbd "C-c O") 'wen-open-line-above)
-                  (global-set-key (kbd "C-c dd") 'wen-kill-whole-line)
-                  (global-set-key (kbd "C-c x") 'wen-delete-whole-word)
-                  )))
+      (global-set-key [remap move-beginning-of-line]
+                      'wen-move-beginning-of-line)
+      ;; Comment or uncomment
+      (global-set-key (kbd "M-;") 'whole-line-or-region-comment-dwim-2)
+      (global-set-key (kbd "M-w") 'whole-line-or-region-copy-region-as-kill)
+      (global-set-key (kbd "C-c o") 'wen-open-line)
+      (global-set-key (kbd "C-c O") 'wen-open-line-above)
+      (global-set-key (kbd "C-c dd") 'wen-kill-whole-line)
+      (global-set-key (kbd "C-c x") 'wen-delete-whole-word)
+      )))
 
 (defun wen-editor/init-multiple-cursors()
   (use-package multiple-cursors
-                :init
-                (progn
-;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-c C-s") 'mc/skip-to-next-like-this)
-)))
+    :init
+    (progn
+      ;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+      (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+      (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+      ;; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+      (global-set-key (kbd "C-c C-s") 'mc/skip-to-next-like-this)
+      )))
+
+(defun wen-editor/init-youdao-dictionary()
+  (use-package youdao-dictionary
+    :init
+    (progn
+      ;; Enable Cache
+      (setq url-automatic-caching t)
+      (global-set-key (kbd "C-c M-\\") 'youdao-dictionary-search-at-point+)
+      )))
+
+;; search selected text
+(defadvice isearch-mode (around isearch-mode-default-string (forward &optional regexp op-fun recursive-edit word-p) activate)
+  (if (and transient-mark-mode mark-active (not (eq (mark) (point))))
+      (progn
+        (isearch-update-ring (buffer-substring-no-properties (mark) (point)))
+        (deactivate-mark)
+        ad-do-it
+        (if (not forward)
+            (isearch-repeat-backward)
+          (goto-char (mark))
+          (isearch-repeat-forward)))
+    ad-do-it))
