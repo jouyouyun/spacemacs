@@ -48,6 +48,11 @@
   (global-set-key (kbd "M-g C-y") 'avy-copy-line)
   (global-set-key (kbd "M-g C-k") 'avy-move-line)
   (global-set-key (kbd "M-g M-y") 'avy-copy-region)
+  ;; c/c++ style
+  (setq c-default-style "k&r"
+        c-basic-offset 4
+        tab-width 4
+        indent-tabs-mode t)
   ;; magit
   (global-set-key (kbd "C-x g") 'magit-status)
   (require 'server)
